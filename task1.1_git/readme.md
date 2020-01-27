@@ -17,6 +17,8 @@
 
 #### 3. Создайте новый репозиторий на github.com и склонируйте его локально на свой компьютер.
 
+git clone git@github.com:Reorks9/Dnipro_DevOps_part2.git
+
 ![something going wrong](https://user-images.githubusercontent.com/22638433/73187493-28f81400-412a-11ea-889f-d509229ed116.png)
 
 
@@ -52,4 +54,5 @@
 
 All commit on repo.
 
-![something going wrong](https://user-images.githubusercontent.com/22638433/73187500-2a294100-412a-11ea-8a3e-1dbc56b58a8d.png)
+![something going wrong](https://user-images.githubusercontent.com/22638433/73188810-1979ca80-412c-11ea-952c-227c8c0d0dd5.png)
+
