@@ -4,7 +4,7 @@
 
 #### Consider 2 options for installing Jenkins: installation using apt-get and war file.
 
-#### Installation using war.
+### Installation using war.
 
 ##### Enter command into terminal (build image):
     docker build -t jenkins .
@@ -24,7 +24,7 @@ Make the necessary settings. All of them are written in the container and in the
 The next time you start the container, the image will start already configured.
 
 
-#### Installation using apt-get.
+### Installation using apt-get.
 
 Dockerfile2 and plugins.txt must be in the same folder.<br>
 Dockerfile2 must be renamed to Dockerfile before using.
@@ -41,12 +41,12 @@ Dockerfile2 must be renamed to Dockerfile before using.
 jenkins - it's name container which we are creating.
 
 
-#### Additional commands.
+### Additional commands.
 
 ##### View all containers
     docker ps -a
 
-#####View all images
+##### View all images
     docker image ls
 
 ##### Enter in our running container
@@ -54,7 +54,8 @@ jenkins - it's name container which we are creating.
 
 ##### Remove all images
     docker rmi $(docker images -a -q)
-    -f - force delete (key enter after rmi)
+
+-f - force delete (key enter after rmi)
 
 ##### Remove all containers
     docker rm $(docker ps -a -q)
