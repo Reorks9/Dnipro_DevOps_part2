@@ -1,0 +1,28 @@
+FROM ubuntu:18.04
+EXPOSE 8080
+ARG REF=/var/lib/jenkins
+ARG JENKINS_UC=https://updates.jenkins.io
+ENV home=$REF
+ENV temp=$home/tempData
+COPY ./plugins.txt ${temp}/plugins.txt
+
+RUN apt-get update && \
+	apt-get -y install apt-utils gnupg2 openjdk-8-jdk wget curl unzip && \
+	wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | apt-key add - && \
+	sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list' && \
+	apt-get update && \
+	apt-get -y install jenkins && \
+	mkdir -p ${temp}/ && \
+	service jenkins restart && \
+	sleep 45 && \
+	password="$(cat $home/secrets/initialAdminPassword)" && \
+	echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("root", "root")' | java -jar /var/cache/jenkins/war/WEB-INF/jenkins-cli.jar -auth admin:$password -s http://localhost:8080/ groovy = && \
+# plugins
+	wget https://raw.githubusercontent.com/jenkinsci/docker/master/install-plugins.sh -O ${temp}/plugins.sh && \
+	cat ${temp}/plugins.sh | sed "s/REF=\/usr\/share\/jenkins\/ref\/plugins/REF=\/var\/lib\/jenkins\/plugins/g" | sed "s/\/usr\/local\/bin/\/var\/lib\/jenkins\/tempData/g"> ${temp}/install-plugins.sh && \
+	chmod  x ${temp}/install-plugins.sh && \
+	wget https://raw.githubusercontent.com/jenkinsci/docker/master/jenkins-support -O ${temp}/support && \
+	cat ${temp}/support | sed "s/\/usr\/share\/jenkins\/ref/\/var\/lib\/jenkins/g" > ${temp}/jenkins-support && \
+	${temp}/install-plugins.sh < ${temp}/plugins.txt && \
+	chown -R jenkins:jenkins $home/
+CMD service jenkins start; read item
