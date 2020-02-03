@@ -6,4 +6,4 @@
 
 ## Task 1.2 - Docker
 
-## Task 1.3 - Docker-Compose# Dnipro_DevOps_part2
+## Task 1.3 - Docker-Compose

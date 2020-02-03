@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  haproxy:
+    build: ./haproxy
+    restart: always
+    ports:
+    - 80:80
+    depends_on:
+      - apache
+      - nginx
+    links:
+      - apache
+      - nginx
+  apache:
+   build: ./apache
+   restart: always
+   volumes:
+     - ./app1:/usr/local/apache2/htdocs/
+  nginx:
+    build: ./nginx
+    restart: always
+    volumes:
+      - ./app2:/etc/nginx/conf.d/webapp/
