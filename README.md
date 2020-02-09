@@ -1,9 +1,11 @@
-# Dnipro_DevOps_part2
+## Dnipro_DevOps_part2
 
 ## In progress...
 
-## Task 1.1 - GIT
+### Module 1 - Git, Docker, Docker-compose
+#### Task 1.1 - Git
+#### Task 1.2 - Docker
+#### Task 1.3 - Docker-compose
 
-## Task 1.2 - Docker
-
-## Task 1.3 - Docker-Compose
+### Module 2 - Jenkins, GitLab
+#### Task 2.1 - Jenkins, pipeline
