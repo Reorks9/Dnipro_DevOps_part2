@@ -1,27 +1,33 @@
 node{
+    // Credentials for GitHub (Dockerfile with Jenkins, nginx,maven)
     stage('SCM Checkout'){
         git credentialsId: 'git-creds', url: 'https://github.com/Reorks9/Jenkins.git'
     }
+    // Dockerfile build
     stage('Build Docker Image'){
         sh 'docker build -t reorks9/jenkins:2.0.0 .'
     }
+    //Credentials for DockerHub
     stage('Push Docker Image'){
-        withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
-            sh "docker login -u reorks9 -p ${DockerHubPwd}"
+        withCredentials([usernamePassword(credentialsId: 'DockerHubCreds', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+            // authorization on DockerHub
+            sh "docker login -u ${USERNAME} -p ${PASSWORD}"
         }
-        
-        sh 'docker tag reorks9/jenkins:2.0.0 reorks9/jenkins:2.0.0'
+        // Docker image push to DockerHub
         sh 'docker push reorks9/jenkins:2.0.0'
-        sh 'docker tag reorks9/jenkins:2.0.0 reorks9/jenkins:latest'
         sh 'docker push reorks9/jenkins:latest'
     }
+    // Container run on port 8081 and folder mount with jenkins config
     stage('Run Container'){
-        sh 'docker run -t -p 8081:8080 --name myjenkins -d -v /home/serg/Documents/Jenkins/volumeForJenkins/:/var/lib/jenkins reorks9/jenkins:1.0.0'
+        sh 'docker run -t -p 8081:8080 --name myjenkins -d -v /home/serg/Documents/Jenkins/volumeForJenkins/:/var/lib/jenkins reorks9/jenkins:2.0.0'
     }
     stage('Check Container'){
         sh 'curl -v telnet://localhost:8081'
     }
-    stage('Delete Container'){
+    stage('Cleanup workspace'){
+        // Delete temporary files
+        cleanWs()
+        // created container stop and delete
         sh 'docker stop myjenkins'
         sh 'docker rm myjenkins'
     }
