@@ -1,19 +1,22 @@
 node{
+    def GitFront = 'https://github.com/Reorks9/todolist-frontend.git'
     stage('SCM Checkout'){
-        git credentialsId: 'git-creds', url: 'https://github.com/Reorks9/todolist-frontend.git'
+        git credentialsId: 'git-creds', url: "${GitFront}"
     }
     stage('Git clone'){
-    	sh 'git clone https://github.com/Reorks9/todolist-frontend.git ./'
+        sh "git clone ${GitFront} ./"
     }
     stage('Build app'){
+        def MySrc = './src/environments/environment'
+        sh "cp ${MySrc}.ts ${MySrc}.dev.ts"
         sh 'npm Install'
         sh 'npm run build:dev'
-        sh 'cp ./src/environments/environment.ts ./src/environments/environment.dev.ts'
     }
     stage('Copy files to server'){
-        def CopyFiles = 'scp -r /var/lib/jenkins/workspace/front_app/dist/* ubuntu@192.168.0.4:/home/ubuntu/app/frontend/dist'
+        def DevServer = 'ubuntu@192.168.0.4'
+        def CopyFiles = "scp -r ./dist/* ${DevServer}:/home/ubuntu/app/frontend/dist"
         sshagent(['dev-server']) {
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@192.168.0.4 ${CopyFiles}"
+            sh "ssh -o StrictHostKeyChecking=no ${DevServer} ${CopyFiles}"
         }
     }
 }

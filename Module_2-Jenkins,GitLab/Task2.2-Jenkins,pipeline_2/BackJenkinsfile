@@ -1,23 +1,26 @@
 node{
+    def GitBack = 'https://github.com/Reorks9/todolist-backend.git'
+    def DevServer = 'ubuntu@192.168.0.4'
+
     stage('SCM Checkout'){
-        git credentialsId: 'git-creds', url: 'https://github.com/Reorks9/todolist-backend.git'
+        git credentialsId: 'git-creds', url: "${GitBack}"
     }
     stage('Git clone'){
-        sh 'git clone https://github.com/Reorks9/todolist-backend.git ./'
+        sh "git clone ${GitBack} ./"
     }
     stage('Build app'){
         sh 'cp ./.env.sample ./.env'
     }
     stage('Copy files to server'){
-        def CopyFiles = 'scp -r ./* ubuntu@192.168.0.4:/home/ubuntu/app/back'
+        def CopyFiles = "scp -r ./* ${DevServer}:/home/ubuntu/app/back"
         sshagent(['dev-server']) {
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@192.168.0.4 ${CopyFiles}"
+            sh "ssh -o StrictHostKeyChecking=no ${DevServer} ${CopyFiles}"
         }
     }
     stage('Run app on server'){
         def RunApp = 'npm run pm2:start'
         sshagent(['dev-server']) {
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@192.168.0.4 ${RunApp}"
+            sh "ssh -o StrictHostKeyChecking=no ${DevServer} ${RunApp}"
         }
     }
 }
