@@ -3,16 +3,26 @@ node{
         git credentialsId: 'git-creds', url: 'https://github.com/Reorks9/Jenkins.git'
     }
     stage('Build Docker Image'){
-    	sh 'docker build -t reorks9/jenkins:1.0.0 .'
+        sh 'docker build -t reorks9/jenkins:2.0.0 .'
     }
     stage('Push Docker Image'){
         withCredentials([string(credentialsId: 'docker-pwd', variable: 'DockerHubPwd')]) {
             sh "docker login -u reorks9 -p ${DockerHubPwd}"
         }
         
-    	sh 'docker push reorks9/jenkins:1.0.0'
+        sh 'docker tag reorks9/jenkins:2.0.0 reorks9/jenkins:2.0.0'
+        sh 'docker push reorks9/jenkins:2.0.0'
+        sh 'docker tag reorks9/jenkins:2.0.0 reorks9/jenkins:latest'
+        sh 'docker push reorks9/jenkins:latest'
     }
     stage('Run Container'){
-    	sh 'docker run -p 8081:8081 -d -v /home/serg/Documents/Jenkins/volumeForJenkins/:/var/lib/jenkins reorks9/jenkins:1.0.0'
+        sh 'docker run -t -p 8081:8080 --name myjenkins -d -v /home/serg/Documents/Jenkins/volumeForJenkins/:/var/lib/jenkins reorks9/jenkins:1.0.0'
+    }
+    stage('Check Container'){
+        sh 'curl -v telnet://localhost:8081'
+    }
+    stage('Delete Container'){
+        sh 'docker stop myjenkins'
+        sh 'docker rm myjenkins'
     }
 }
