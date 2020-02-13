@@ -9,3 +9,6 @@
 
 ### Module 2 - Jenkins, GitLab
 #### Task 2.1 - Jenkins, pipeline
+#### Task 2.2 - Jenkins,Pipeline for javascrit application
+#### Task 2.3 - GitLab 1
+#### Task 2.4 - GitLab 2

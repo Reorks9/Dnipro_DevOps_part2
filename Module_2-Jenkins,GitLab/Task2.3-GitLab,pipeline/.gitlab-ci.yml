@@ -1,0 +1,40 @@
+image: docker:latest
+
+variables:
+  image_name: "reorks9/test_project"
+  docker_hub_registry: "reorks9/gitlabjenkinspipeline"
+  full_name: "registry.gitlab.com/reorks9/test_project:$CI_COMMIT_SHA"
+
+services:
+    - docker:dind
+stages:
+  - build
+  - test
+  - push
+before_script:
+  - docker login -u "$GitLabUserName" -p "$GitLabPswd" registry.gitlab.com
+  
+build_docker_image:
+  stage: build
+  script:
+  - docker build -t "$full_name" .
+  - docker push "$full_name"
+  
+test_docker_image:
+  stage: test
+  script:
+  - docker run -td -p 8081:8080 --name myjenkins "$full_name"
+  - curl -v telnet://localhost:8081
+  
+push_docker_image_to_git_lab:
+  stage: push
+  script:
+  - docker pull "$full_name"
+  - docker tag "$full_name" "$image_name":"$CI_COMMIT_SHA" 
+  - docker push registry.gitlab.com/"$image_name":"$CI_COMMIT_SHA" 
+# Push to dockerhub  
+#   - docker tag "$full_name" "$docker_hub_registry":"$CI_COMMIT_SHA" 
+#   - docker push docker.io/"$docker_hub_registry":"$CI_COMMIT_SHA"
+#   - docker tag "$full_name" "$docker_hub_registry":latest 
+#   - docker push docker.io/"$docker_hub_registry":latest
+  

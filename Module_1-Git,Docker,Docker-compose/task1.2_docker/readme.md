@@ -50,7 +50,7 @@ jenkins - it's name container which we are creating.
     docker image ls
 
 ##### Enter in our running container
-    docker exec -it jenkis /bin/bash
+    docker exec -it jenkins /bin/bash
 
 ##### Remove all images
     docker rmi $(docker images -a -q)

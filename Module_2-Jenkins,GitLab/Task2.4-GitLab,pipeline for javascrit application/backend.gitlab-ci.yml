@@ -1,0 +1,21 @@
+image: node:latest
+
+stages:
+  - build
+  - run
+  
+variables:
+  copy_files: "scp -r ./* ubuntu@192.168.0.4:/home/ubuntu/app/back"
+  run_app: "npm run pm2:start"
+
+build:
+  stage: build
+  script:
+    - cp ./.env.sample ./.env
+    - scp -r ./* ubuntu@192.168.0.4:/home/ubuntu/app/back
+    - ssh -o StrictHostKeyChecking=no ubuntu@192.168.0.4 ${CopyFiles}
+
+run:
+  stage: run
+  script:
+    - ssh -o StrictHostKeyChecking=no ubuntu@192.168.0.4 ${run_app}

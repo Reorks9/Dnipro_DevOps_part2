@@ -1,0 +1,24 @@
+image: node:latest
+  
+variables:
+  copy_files: "scp -r ./dist/* ubuntu@192.168.0.4:/home/ubuntu/app/frontend/dist"
+
+stages:
+  - build
+  - copy
+
+build:
+  stage: build
+  script:
+    - cp ./src/environments/environment.ts ./src/environments/environment.dev.ts
+    - npm Install
+    - npm run build:dev
+  artifacts:
+    paths:
+    - ./dist
+    expire_in: 1 day
+
+copy:
+  stage: copy
+  script:
+    - ssh -o StrictHostKeyChecking=no ubuntu@192.168.0.4 "$copy_files"
