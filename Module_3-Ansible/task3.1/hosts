@@ -1,0 +1,9 @@
+[web]
+ec2-54-70-15-137.us-west-2.compute.amazonaws.com
+#ec2-54-212-150-80.us-west-2.compute.amazonaws.com
+
+[lb]
+ec2-35-166-106-27.us-west-2.compute.amazonaws.com
+
+[db]
+ec2-34-219-140-85.us-west-2.compute.amazonaws.com

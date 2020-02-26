@@ -1,0 +1,30 @@
+# AWS playbook
+---
+- hosts: web
+  become: yes
+  gather_facts: False
+  roles:
+    - web
+  tags: web
+
+- hosts: lb
+  become: yes
+  gather_facts: False
+  roles:
+    - nginx
+  tags: lb
+
+- hosts: db
+  become: yes
+  gather_facts: False
+  roles:
+    - mysql
+  tags: db
+  
+  handlers:
+    - name: restart mysql
+      service:
+        name: mysql
+        state: restarted
+
+...

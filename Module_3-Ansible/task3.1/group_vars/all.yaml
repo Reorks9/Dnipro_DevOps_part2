@@ -1,0 +1,10 @@
+key_name: my_aws
+#region: us-west-2
+#image: ami-0d1cd67c26f5fca19
+#id: "web-app"
+#sec_group: "{{ id }}-sec"
+var_node: /home/ubuntu
+ansible_user: ubuntu
+privateKey: /home/serg/.ssh/my_aws
+database: todo_list
+mysql_user: serg

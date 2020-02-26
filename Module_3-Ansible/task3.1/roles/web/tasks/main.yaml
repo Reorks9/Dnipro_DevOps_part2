@@ -1,0 +1,127 @@
+---
+- name: Node.js - Get script
+  get_url:
+    url: "https://deb.nodesource.com/setup_12.x"
+    dest: "{{ var_node }}/nodejs.sh"
+
+- name: Node.js - Set execution permission to script
+  file:
+    path: "{{ var_node }}/nodejs.sh"
+    mode: "u+x"
+
+- name: Node.js - Execute installation script
+  shell: "{{ var_node }}/nodejs.sh"
+
+- name: Node.js - Remove installation script
+  file:
+    path: "{{ var_node }}/nodejs.sh"
+    state: absent
+
+- name: Node.js - Install Node.js
+  apt: 
+    name: "{{ item }}" 
+    state: present 
+    update_cache: yes
+  with_items:
+    - build-essential
+    - nodejs
+    - git
+    - nginx
+
+- name: Install pm2
+  npm: 
+    name: pm2 
+    global: yes 
+    production: yes
+
+# create back dir
+- name: Create APP Directory for back
+  file: 
+    path: "{{ back_app_dir }}/" 
+    state: directory
+    mode: '0755' 
+    owner: ubuntu
+    group: ubuntu
+
+# create front dir
+- name: Create APP Directory for front
+  file: 
+    path: "{{ front_app_dir }}/" 
+    state: directory
+
+# get back
+- name: Git Clone back
+  git: 
+    repo: "{{ github_back_link }}" 
+    dest: "{{ back_app_dir }}/" 
+    update: yes 
+    force: yes 
+
+# get front
+- name: Git Clone front
+  git: 
+    repo: "{{ github_front_link }}" 
+    dest: "{{ front_app_dir }}/" 
+    update: yes 
+    force: yes 
+
+## work with front
+# create environment file
+- name: create environment.dev.ts 
+  template:
+    src: templates/environment.dev.ts.j2 
+    dest: "{{ front_app_dir }}/src/environments/environment.dev.ts"
+    mode: '0755' 
+    owner: ubuntu
+    group: ubuntu
+
+# install dependencies
+- name: Running NPM install
+  npm: 
+    path: "{{ front_app_dir }}"
+
+# build front
+- name: build front
+  shell: npm run build:dev 
+  args: 
+    chdir: "{{ front_app_dir }}/"
+
+## work with back
+# create .env file
+- name: create .env file 
+  template:
+    src: templates/env.j2 
+    dest: "{{ back_app_dir }}/.env"
+    mode: '0755' 
+    owner: ubuntu
+    group: ubuntu
+
+# install dependencies
+- name: Running NPM install
+  npm: 
+    path: "{{ back_app_dir }}"
+
+
+# start App
+- name: Start APP
+  shell: npm run pm2:start 
+  args: 
+    chdir: "{{ back_app_dir }}/"
+
+
+## nginx
+# send config
+- name: add site config 
+  template:
+    src: templates/small_nginx.conf.j2 
+    dest: /etc/nginx/sites-enabled/default
+    mode: '0755' 
+    owner: root
+    group: root
+
+- name: restart nginx
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: nginx
+...

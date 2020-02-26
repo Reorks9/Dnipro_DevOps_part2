@@ -1,0 +1,12 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	server_name todo;
+
+	location /api/ {
+		proxy_pass http://localhost:{{ back_port }};
+	}
+	location / {
+		root {{ front_app_dir }}/dist;
+	}
+}
