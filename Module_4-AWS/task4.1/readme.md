@@ -58,7 +58,23 @@ Add NAT gateway to Routes "default table_test", which was created for private su
 
 ##### 3-4. Start a new EC2 instance. Deploy an ACL and a security group
 
-Create security group for instance "test for public" with inbound rules:
+Create security group "security group test" for instance "test for public":<br>
+inbound rules:<br>
+port 80 from 0.0.0.0/0 <br>
+port 22 from 10.0.0.0/24 (public IP address range) <br>
+outbound rules: <br>
+port 80 to 0.0.0.0/0 <br>
+port 3306 to security group "securitu group for pribate subnet"
+
+
+Create security group "security group for private subnet" for instance "test for private":<br>
+inbound rules:<br>
+port 3306 from security group "securitu group test" <br>
+outbound rules: <br>
+port 80 to 0.0.0.0/0 <br>
+
+
+Create security group "xxx" for NAT gateway:<br>
 
 ![something going wrong](https://user-images.githubusercontent.com/22638433/76379904-0cbada00-635a-11ea-8838-b208a426e8fb.PNG)
 
