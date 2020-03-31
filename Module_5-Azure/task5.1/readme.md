@@ -9,21 +9,26 @@
 ##### 5.1.1. Create VNet.
 
 Create resource group "vnet_resource" and virtual network "vnet_for_hw".
+
 ![something going wrong](https://user-images.githubusercontent.com/22638433/78031278-fe197e80-736b-11ea-8199-d2b32c3880f1.PNG)
 
 Configure IP addresses range 10.2.0.0/16 and subinterfaces 10.2.10.0/24 and 10.2.20.0/24.
+
 ![something going wrong](https://user-images.githubusercontent.com/22638433/78031281-ff4aab80-736b-11ea-8d1a-9bada18668f1.PNG)
 
 As a result we get:
+
 ![something going wrong](https://user-images.githubusercontent.com/22638433/78031285-ffe34200-736b-11ea-8d35-b340143d7e28.PNG)
 
 
 ##### 5.1.2. Create VM.
 
 Create in the resource group "Resource1" virtial machine "TESTPC1" with connection to her through SSH.
+
 ![something going wrong](https://user-images.githubusercontent.com/22638433/78031287-ffe34200-736b-11ea-9714-2b0a062fa8de.PNG)
 
 Connect to out VM through SSH.
+
 ![something going wrong](https://user-images.githubusercontent.com/22638433/78031288-007bd880-736c-11ea-887e-780abc3fde48.PNG)
 
 
