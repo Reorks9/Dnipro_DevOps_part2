@@ -10,7 +10,7 @@
 
 Create resource group "vnet_resource" and virtual network "vnet_for_hw".
 
-![something going wrong](https://user-images.githubusercontent.com/22638433/78031278-fe197e80-736b-11ea-8199-d2b32c3880f1.PNG)
+![something going wrong](./images/image5.1.1_1.PNG)
 
 Configure IP addresses range 10.2.0.0/16 and subinterfaces 10.2.10.0/24 and 10.2.20.0/24.
 
