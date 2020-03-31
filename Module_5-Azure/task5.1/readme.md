@@ -31,7 +31,7 @@ Connect to out VM through SSH.
 
 Create in resource group "Win" LoadBalancer "LB".<br>
 In the other tabs, do not change anything. <br>
-The numbers in the names of the created tools do not match, because the tools have already been created earlier and work correctly.
+The numbers in the names of the created tools do not match, because the tools have already been created earlier and work correctly. <br>
 ![something going wrong](https://user-images.githubusercontent.com/22638433/77929543-74f24100-72b2-11ea-9e23-d4b796afd2f5.PNG)
 
 Create VM "Win2" in same region as LB. <br>
@@ -64,6 +64,6 @@ Enter to IP VM (52.148.150.117) and IP LB (52.143.83.234).
 
 ##### 5.1.4. Create IIS server via Azure Portal.
 
-Create instance "test for private" (subnet 10.0.1.0/24):
+Create VM and install IIS on this VM.
 
 ![something going wrong](https://user-images.githubusercontent.com/22638433/76379908-0d537080-635a-11ea-83a4-9f2922fbfc9c.PN)
