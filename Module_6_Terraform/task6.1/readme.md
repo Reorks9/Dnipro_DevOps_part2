@@ -3,110 +3,68 @@
 #### Homework: 
 * Develop some minimal stack to deploy an infrastructure 
 Acceptance Criteria:
-* 1. Your stack has 5-7 resource types and relations between. Your stack has sense and value.
-* 2. Task accepting format - Demo session starting with code review
-* 3. Your stack is able to plan/apply/destroy successfully
-* 4. We can see all activities in AWS Console in real time in parallel
-* 5. Using remote state is preferable (but not mandatory)
-* 6. English language is preferable (but not mandatory)
+* Your stack has 5-7 resource types and relations between. Your stack has sense and value.
+* Task accepting format - Demo session starting with code review
+* Your stack is able to plan/apply/destroy successfully
+* We can see all activities in AWS Console in real time in parallel
+* Using remote state is preferable (but not mandatory)
+* English language is preferable (but not mandatory)
 
 
-##### 5.1.1. Create VNet.
+##### 6.1.1. Terraform installation.
 
-Create resource group "vnet_resource" and virtual network "vnet_for_hw".
+    sudo apt-get install unzip
 
-![something going wrong](./images/image5.1.1_1.PNG)
+Confirm the latest version number on the terraform website: <br>
 
-Configure IP addresses range 10.2.0.0/16 and subinterfaces 10.2.10.0/24 and 10.2.20.0/24.
+    https://releases.hashicorp.com/terraform/
 
-![something going wrong](./images/image5.1.1_2.PNG)
+or <br>
 
-As a result we get:
+    https://www.terraform.io/downloads.html
 
-![something going wrong](./images/image5.1.1_3.PNG)
+    wget https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
+    unzip terraform_0.12.18_linux_amd64.zip
+    sudo mv terraform /usr/local/bin/
+    terraform -v
 
+The main is copy file "terraform" to /usr/local/bin.
 
-##### 5.1.2. Create VM.
+##### 6.1.2. Terraform running.
 
-Create in the resource group "Resource1" virtial machine "TESTPC1" with connection to her through SSH.
+Add AWS keys as environment variables (in terminal).
 
-![something going wrong](./images/image5.1.2_1.PNG)
+    export AWS_ACCESS_KEY=Your_AWS_ACCESS_KEY
+    export AWS_SECRET_KEY=Your_AWS_SECRET_KEY
 
-Connect to out VM through SSH.
+In work directory run next commands: <br>
+Install needed plugins.
 
-![something going wrong](./images/image5.1.2_2.PNG)
+    terraform init
 
+Check errors on terafform file.
 
-##### 5.1.3. Create Loadbalancer.
+    terraform validate
 
-Create in resource group "Win" LoadBalancer "LB".<br>
-In the other tabs, do not change anything. <br>
-The numbers in the names of the created tools do not match, because the tools have already been created earlier and work correctly.
+Run terraform file.
 
-![something going wrong](./images/image5.1.3_1.PNG)
+    terraform apply -auto-approve
 
-Create VM "Win2" in same region as LB. <br>
-I could not choose "Size" at the moment, because there were no VM available in this region.
+-auto-approve # to run without confirmation <br>
 
-![something going wrong](./images/image5.1.3_2.PNG)
+Check for changes
 
-Configure network connections.
+    terraform plan
 
-![something going wrong](./images/image5.1.3_3.PNG)
+After that, 2 Instances will be launched at the AWS. Also will be launched VPC, subnet, LB and other. <br>
+In terminal we see LB IP address.
 
-Configure LB on the same tab. <br>
-Create server pool "pool_test2".
+![something going wrong](./images/image6.1.1.PNG)
 
-![something going wrong](./images/image5.1.3_4.PNG)
+Go to the LB address (the address is displayed in the terminal)
 
-Connect to our VM "Win2". <br>
-For install IIS in Power Shell run command <br>
-    
-    Install-WindowsFeature -name Web-Server -IncludeManagementTools
+![something going wrong](./images/image6.1.2.PNG)
 
-_________
+Removal of installed resources from AWS
 
-Сontinue to configure LB. <br>
-Create Health probes "Zond_test".
-
-![something going wrong](./images/image5.1.3_5.PNG)
-
-Create Load balancing rules "RuleforLB".
-
-![something going wrong](./images/image5.1.3_6.PNG)
-
-Check our configurations. <br>
-Enter to IP VM (52.148.150.117) and IP LB (52.143.83.234).
-
-![something going wrong](./images/image5.1.3_7.PNG)
-
-
-##### 5.1.4. Create IIS server via Azure Portal.
-
-Create VM and install IIS on this VM.
-
-![something going wrong](./images/image5.1.4_1.PNG)
-
-
-##### 5.2. Create IIS server via ARM template.
-
-For deployment use next files: <br>
-* template_for_IIS_original.json  
-* parameters.json
-
-![something going wrong](./images/image5.2.1_1.PNG)
-
-
-
-##### 5.3. Change IIS default start page (ARM template or custom script).
-
-For deployment use next files: <br>
-* template_for_IIS_non_original.json  
-* parameters.json
-
-![something going wrong](./images/image5.3.1_1.PNG)
-
-
-#### Links
-
-    https://docs.microsoft.com/en-us/azure/load-balancer/tutorial-load-balancer-standard-manage-portal
+    terraform destroy -auto-approve
