@@ -1,4 +1,4 @@
-# Module 6 Terraform.
+# Module 6 IaC. Terraform.
 
 #### Homework: 
 * Develop some minimal stack to deploy an infrastructure 

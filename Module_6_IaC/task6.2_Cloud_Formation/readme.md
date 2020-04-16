@@ -1,4 +1,4 @@
-# Module 7 Cloud Formation.
+# Module 6. IaC. CloudFormation.
 
 #### Homework: 
 Create a yaml file which describes AWS stack to deploy (could be taken from Terraform task). <br>
