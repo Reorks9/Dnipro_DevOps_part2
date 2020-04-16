@@ -11,12 +11,12 @@ Acceptance Criteria:
 * English language is preferable (but not mandatory)
 
 
-##### Template discription.
+#### Template discription.
 
 The template is above ("2 Instances and LB.yaml"). <br>
 AWS CloudFormation template consist of: Network resources (VPC, 2 subnet), SecurityGroup, 2 Instances, LoadBalancer. <br>
 
-##### Environment deployment.
+#### Environment deployment.
 
 On the AWS page go to CloudFormation section. <br>
 Click "Create stack". Click "Upload a template file". Choose our template. Click "Next". <br>
@@ -35,5 +35,7 @@ In the section "Outputs" we can see DNS address of the LB.
 Click this DNS address and go to our LB. If press the button "refresh", then we'll see Nginx and Apache pages one by one.
 
 ![something going wrong](./images/image6.2.3.PNG)
+
+#### Environment removal.
 
 Now we can click the button "Delete" and all previously installed resources will be deleted.
