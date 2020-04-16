@@ -11,60 +11,29 @@ Acceptance Criteria:
 * English language is preferable (but not mandatory)
 
 
-##### 7.1.1. Terraform installation.
+##### Template discription.
 
-    sudo apt-get install unzip
+The template is above ("2 Instances and LB.yaml"). <br>
+AWS CloudFormation template consist of: Network resources (VPC, 2 subnet), SecurityGroup, 2 Instances, LoadBalancer. <br>
 
-Confirm the latest version number on the terraform website: <br>
+##### Environment deployment.
 
-    https://releases.hashicorp.com/terraform/
+On the AWS page go to CloudFormation section. <br>
+Click "Create stack". Click "Upload a template file". Choose our template. Click "Next". <br>
+Enter the stack name in the field "Stack name". Choose needed parameters (Keys, Instance type, Environment). Click "Next" 2 times. <br>
+Click "Create stack". Wait about 5 minutes. <br>
+In result we should see the next. In the section "Stack info" status should be "Create complete". <br>
+Also, 2 Instances and other resources will appear on the AWS page in the section "EC2".
 
-or <br>
+![something going wrong](./images/image6.2.1.PNG)
 
-    https://www.terraform.io/downloads.html
+In the section "Resources" lists all installed resources.
+In the section "Outputs" we can see DNS address of the LB.
 
-    wget https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip
-    unzip terraform_0.12.18_linux_amd64.zip
-    sudo mv terraform /usr/local/bin/
-    terraform -v
+![something going wrong](./images/image6.2.2.PNG)
 
-The main is copy file "terraform" to /usr/local/bin.
+Click this DNS address and go to our LB. If press the button "refresh", then we'll see Nginx and Apache pages one by one.
 
-##### 6.1.2. Terraform running.
+![something going wrong](./images/image6.2.3.PNG)
 
-Add AWS keys as environment variables (in terminal).
-
-    export AWS_ACCESS_KEY=Your_AWS_ACCESS_KEY
-    export AWS_SECRET_KEY=Your_AWS_SECRET_KEY
-
-In work directory run next commands: <br>
-Install needed plugins.
-
-    terraform init
-
-Check errors on terafform file.
-
-    terraform validate
-
-Run terraform file.
-
-    terraform apply -auto-approve
-
--auto-approve # to run without confirmation <br>
-
-Check for changes
-
-    terraform plan
-
-After that, 2 Instances will be launched at the AWS. Also will be launched VPC, subnet, LB and other. <br>
-In terminal we see LB IP address.
-
-![something going wrong](./images/image6.1.1.PNG)
-
-Go to the LB address (the address is displayed in the terminal)
-
-![something going wrong](./images/image6.1.2.PNG)
-
-Removal of installed resources from AWS
-
-    terraform destroy -auto-approve
+Now we can click the button "Delete" and all previously installed resources will be deleted.
